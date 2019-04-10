@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link
+      rel="stylesheet"
+      href="https://necolas.github.io/normalize.css/8.0.1/normalize.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="/css/backend-index.css" />
+    <title>line chatbot manager</title>
+  </head>
+
+  <body>
+    <section class="main container-fluid row">
+      <section class="left col-md-3">
+        <nav class="nav flex-column">
+          <a
+            class="nav-item nav-link active"
+            data-toggle="tab"
+            href="#product-order"
+            >訂餐訂單管理
+          </a>
+          <a class="nav-item nav-link" data-toggle="tab" href="#seat-order"
+            >訂位訂單管理
+          </a>
+          <a class="nav-item nav-link" data-toggle="tab" href="#push-book"
+            >新品推送
+          </a>
+        </nav>
+      </section>
+      <section class="right col-md-9">
+        <div class="tab-content">
+          <div class="tab-pane fade show active" id="product-order">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th scope="col">交易ID</th>
+                  <th scope="col">訂購者</th>
+                  <th scope="col">處理狀態</th>
+                  <th scope="col">建立時間</th>
+                  <th scope="col">詳情</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+          <div class="tab-pane fade" id="seat-order">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th scope="col">交易ID</th>
+                  <th scope="col">訂購者</th>
+                  <th scope="col">訂位人數</th>
+                  <th scope="col">處理狀態</th>
+                  <th scope="col">建立時間</th>
+                  <th scope="col">詳情</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+          <div class="tab-pane fade" id="push-book">
+            <div class="form-group">
+              <h2>推送類型</h2>
+              <div class="form-check">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  name="productType"
+                  id="book"
+                  value="book"
+                  checked
+                />
+                <label class="form-check-label" for="book">
+                  書籍
+                </label>
+              </div>
+              <div class="form-check">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  name="productType"
+                  id="product"
+                  value="product"
+                  checked
+                />
+                <label class="form-check-label" for="product">
+                  食物
+                </label>
+              </div>
+            </div>
+            <div class="form-group">
+              <h2><label for="product-image">產品圖片</label></h2>
+              <input
+                type="text"
+                required
+                class="form-control"
+                id="product-image"
+                placeholder="enter image url"
+              />
+              <!-- <input
+                required
+                type="file"
+                class="form-control-file"
+                id="product-image"
+              /> -->
+            </div>
+            <div class="form-group">
+              <h2>
+                <label for="desc">產品描述</label>
+              </h2>
+              <textarea
+                required
+                class="form-control"
+                id="desc"
+                rows="5"
+                cols="11"
+              ></textarea>
+            </div>
+            <button id="push" type="button" class="btn btn-lg btn-info">
+              push
+            </button>
+          </div>
+        </div>
+      </section>
+    </section>
+    <div
+      class="modal fade"
+      id="txDetail"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="txDetailModalCenterTitle"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="txDetailModalLongTitle">訂單明細</h5>
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body"></div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">
+              Close
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script
+      src="https://code.jquery.com/jquery-2.2.4.min.js"
+      integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+      integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+      integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+      crossorigin="anonymous"
+    ></script>
+    <script>
+      window.onload = () => {
+        $.ajax({
+          url: '/admin/index/order/menu'
+        })
+          .done(data => {
+            if (data.isSuccess) {
+              let orderList = JSON.parse(data.payload);
+              let html = '';
+              orderList.forEach((ele, idx) => {
+                html += `<tr>
+                                    <th scope="row">${ele.tx_id}</th>
+                                    <td>${ele.nickname}</td>
+                                    <td>${ele.is_handle}</td>
+                                    <td>${ele.created_at}</td>
+                                    <td><button type="button" class="btn btn-primary" onclick="loadDynamicContentModal('${
+                                      ele.tx_id
+                                    }')">查看詳情</button></td>
+                                </tr>`;
+              });
+              $('#product-order tbody')
+                .empty()
+                .append(html);
+            }
+          })
+          .fail(err => {
+            console.error(err);
+          });
+      };
+      function loadDynamicContentModal(txId) {
+        $('#txDetail').modal('show');
+        $.ajax({
+          url: '/admin/index/order/detail/' + txId
+        })
+          .done(data => {
+            if (data.isSuccess) {
+              let order = data.order;
+              let orderType = !!order.count ? 'seat' : 'menu';
+              let psInfo =
+                orderType === 'seat' ? order.count : order.product_info;
+              let psText = orderType === 'seat' ? '用餐人數：' : '餐點：';
+
+              let msgList = data.msgList;
+              console.log(msgList);
+              let html = `
+                        <div class="form-group row">
+                          <label for="nickname" class="col-sm-2 col-form-label">暱稱：</label>
+                          <div class="col-sm-10">
+                            <span>${order.nickname}</span>
+                          </div>
+                        </div>
+                        <div class="form-group row">
+                          <label class="col-sm-2 col-form-label">聯絡電話：</label>
+                          <div class="col-sm-10">
+                              <span>${order.contact}</span>
+                          </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="inputPassword3" class="col-sm-2 col-form-label">${psText}</label>
+                            <div class="col-sm-10">
+                                <span>${psInfo}</span>
+                            </div>
+                        </div>
+                        `;
+              if (orderType === 'seat') {
+                html += `<div class="form-group row">
+                        <label for="inputPassword3" class="col-sm-2 col-form-label">消費時間：</label>
+                        <div class="col-sm-10">
+                            <span>${order.consume_time}</span>
+                        </div>
+                    </div>`;
+              }
+              let msgDisplay = '';
+              msgList.forEach(ele => {
+                let msgClass = 'msg-row text-left';
+                if (ele.userId === 'robot') {
+                  msgClass = 'msg-row-robot text-right';
+                }
+                msgDisplay += `<div class="row ${msgClass}">
+                                    <div>
+                                        <span class="user">${ele.userId}：</span>
+                                        <span class="msg-content">${
+                                          ele.text
+                                        }</span>
+                                    </div>
+                                </div>
+                                <div class="clearfix"></div>
+                                `;
+              });
+              html += `<div class="form-group row">
+                    <label for="" class="col-sm-2 col-form-label">對談紀錄：</label>
+                    <div class="col-sm-12">
+                        <div class="history-msg">
+                        ${msgDisplay}
+                        </div>
+                    </div>
+                </div>
+                `;
+              /*
+              html += `<div class="row">
+                        <div class="col-sm-12">
+                          <div class="row history-msg">
+                            <input
+                              type="text"
+                              class="form-control"
+                              placeholder="enter text you want to reply"
+                            />
+                          </div>
+                        </div>
+                        <button type="button" class="btn btn-primary">push</button>
+                      </div>`;
+                      */
+              $('#txDetail .modal-body')
+                .empty()
+                .append(html);
+            }
+          })
+          .fail(err => {
+            console.error(err);
+          });
+      }
+      $(function() {
+        // 訂餐
+        $('a[href="#product-order"]').on('click', e => {
+          $.ajax({
+            url: '/admin/index/order/menu'
+          })
+            .done(data => {
+              if (data.isSuccess) {
+                let orderList = JSON.parse(data.payload);
+                let html = '';
+                orderList.forEach((ele, idx) => {
+                  html += `<tr>
+                                    <th scope="row">${ele.tx_id}</th>
+                                    <td>${ele.nickname}</td>
+                                    <td>${ele.is_handle}</td>
+                                    <td>${ele.created_at}</td>
+                                    <td><button type="button" class="btn btn-primary" onclick="loadDynamicContentModal('${
+                                      ele.tx_id
+                                    }')">查看詳情</button></td>
+                                </tr>`;
+                });
+                $('#product-order tbody')
+                  .empty()
+                  .append(html);
+              }
+            })
+            .fail(err => {
+              console.error(err);
+            });
+        });
+        // 訂位
+        $('a[href="#seat-order"]').on('click', e => {
+          $.ajax({
+            url: '/admin/index/order/seat'
+          })
+            .done(data => {
+              if (data.isSuccess) {
+                let orderList = JSON.parse(data.payload);
+                let html = '';
+                orderList.forEach((ele, idx) => {
+                  html += `<tr>
+                                <th scope="row">${ele.tx_id}</th>
+                                <td>${ele.nickname}</td>
+                                <td>${ele.count}</td>
+                                <td>${ele.is_handle}</td>
+                                <td>${ele.created_at}</td>
+                                <td><button type="button" class="btn btn-primary" onclick="loadDynamicContentModal('${
+                                  ele.tx_id
+                                }')">查看詳情</button></td>
+                            </tr>`;
+                });
+                $('#seat-order tbody')
+                  .empty()
+                  .append(html);
+              }
+            })
+            .fail(err => {
+              console.error(err);
+            });
+        });
+        // 推播
+        $('#push').on('click', e => {
+          // e.stopPropagation();
+          let imgVal = $('#product-image').val();
+          if (imgVal === '') {
+            alert('請傳入圖片');
+            return false;
+          }
+          if (!/png|jpg/g.test(imgVal)) {
+            alert('圖片格式錯誤');
+            return false;
+          }
+          let _this = $(this);
+          _this.css('disabled', true);
+          /*
+          const formData = new FormData();
+
+          formData.append(
+            'productType',
+            $('input[name="productType"]:checked').val()
+          );
+          formData.append('desc', $('#desc').val());
+          formData.append('img', imgVal);
+          */
+          let postData = {
+            productType: $('input[name="productType"]:checked').val(),
+            desc: $('#desc').val(),
+            imgUri: imgVal
+          };
+          $.ajax({
+            url: '/admin/index/products/push/new',
+            data: postData,
+            type: 'post'
+          })
+            .done(data => {
+              alert('推送成功');
+              _this.css('disabled', false);
+            })
+            .fail(err => {
+              alert('推送失敗');
+              _this.css('disabled', false);
+            });
+          /*
+          formData.append('image', $('input[type=file]')[0].files[0]);
+
+          $.ajax({
+            url: '/admin/index/products/push',
+            data: formData,
+            contentType: false,
+            processData: false,
+            type: 'post'
+          })
+            .done(data => {
+              alert('推送成功');
+              _this.css('disabled', false);
+            })
+            .fail(err => {
+              alert('推送失敗');
+              _this.css('disabled', false);
+            });
+            */
+        });
+        $('button.btn-primary').on('click', e => {
+          console.log(e);
+          return;
+        });
+      });
+    </script>
+  </body>
+</html>

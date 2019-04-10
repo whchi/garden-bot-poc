@@ -1,0 +1,20 @@
+{
+  "name": "underline",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "nodemon index.js",
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "bottender": "0.15.17",
+    "koa-busboy": "^1.2.0",
+    "mongoose": "^5.4.20",
+    "uuid": "^3.3.2"
+  },
+  "devDependencies": {
+    "@line/bot-sdk": "^6.6.0",
+    "koa-static": "^5.0.0",
+    "nodemon": "^1.18.10"
+  }
+}
